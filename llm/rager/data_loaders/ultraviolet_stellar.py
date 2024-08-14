@@ -15,15 +15,16 @@ def search(*args, **kwargs) -> List[Dict]:
     connection_string = kwargs.get('connection_string', 'http://localhost:9200')
     index_name = get_global_variable('eldritch_celestial', 'index_name')
     top_k = kwargs.get('top_k', 5)
-    chunk_column = kwargs.get('chunk_column', 'content')
+    chunk_column = 'text' # Col to search
 
     es_client = Elasticsearch(connection_string)
 
     query_text = "When is the next cohort?"
+
     # Constructing a basic match query
     search_query = {
         "match": {
-            chunk_column: query_text
+            chunk_column: query_text #determines which field to look for matches in
         }
     }
 
@@ -31,16 +32,18 @@ def search(*args, **kwargs) -> List[Dict]:
         index=index_name,
         query=search_query,
         size=top_k,
-        _source=[chunk_column],
+        _source=[chunk_column, 'document_id'], # _source defines the fields to include in output_
     )
-    res = [hit['_source'][chunk_column] for hit in response['hits']['hits']]
+
+    # Extract both the document_id and text content
+    res = [{
+        'document_id': hit['_source']['document_id'],
+        chunk_column: hit['_source'][chunk_column]
+    } for hit in response['hits']['hits']]
+    
+    if res:
+        top_result_id = res[0]['document_id']  # Get the document_id of the top result
+        print(f'Top result document_id: {top_result_id}')
+    
     print(res)
     return res
-
-
-@test
-def test_output(output, *args) -> None:
-    """
-    Template code for testing the output of the block.
-    """
-    assert output is not None, 'The output is undefined'

@@ -4,7 +4,8 @@ blocks:
   configuration:
     file_source:
       path: rager/data_loaders/ephemeral_mythos.py
-  downstream_blocks: []
+  downstream_blocks:
+  - meteoric_prism
   executor_config: null
   executor_type: local_python
   groups:
@@ -13,7 +14,7 @@ blocks:
   language: python
   name: Ephemeral mythos
   retry_config: null
-  status: not_executed
+  status: executed
   timeout: null
   type: data_loader
   upstream_blocks: []
@@ -23,7 +24,8 @@ blocks:
   configuration:
     file_source:
       path: rager/transformers/meteoric_prism.py
-  downstream_blocks: []
+  downstream_blocks:
+  - phosphorescent_ion
   executor_config: null
   executor_type: local_python
   groups:
@@ -32,17 +34,19 @@ blocks:
   language: python
   name: Meteoric prism
   retry_config: null
-  status: not_executed
+  status: failed
   timeout: null
   type: transformer
-  upstream_blocks: []
+  upstream_blocks:
+  - ephemeral_mythos
   uuid: meteoric_prism
-- all_upstream_blocks_executed: true
+- all_upstream_blocks_executed: false
   color: null
   configuration:
     file_source:
       path: rager/transformers/phosphorescent_ion.py
-  downstream_blocks: []
+  downstream_blocks:
+  - luminous_eclipse
   executor_config: null
   executor_type: local_python
   groups:
@@ -51,12 +55,13 @@ blocks:
   language: python
   name: Phosphorescent ion
   retry_config: null
-  status: not_executed
+  status: failed
   timeout: null
   type: transformer
-  upstream_blocks: []
+  upstream_blocks:
+  - meteoric_prism
   uuid: phosphorescent_ion
-- all_upstream_blocks_executed: true
+- all_upstream_blocks_executed: false
   color: null
   configuration:
     file:
@@ -80,7 +85,8 @@ blocks:
           number_of_replicas: 0
           number_of_shards: 1
           vector_column_name: embedding
-  downstream_blocks: []
+  downstream_blocks:
+  - ultraviolet_stellar
   executor_config: null
   executor_type: local_python
   groups:
@@ -92,9 +98,10 @@ blocks:
   status: not_executed
   timeout: null
   type: data_exporter
-  upstream_blocks: []
+  upstream_blocks:
+  - phosphorescent_ion
   uuid: luminous_eclipse
-- all_upstream_blocks_executed: true
+- all_upstream_blocks_executed: false
   color: null
   configuration:
     file:
@@ -128,7 +135,8 @@ blocks:
   status: not_executed
   timeout: null
   type: data_loader
-  upstream_blocks: []
+  upstream_blocks:
+  - luminous_eclipse
   uuid: ultraviolet_stellar
 cache_block_output_in_memory: false
 callbacks: []
@@ -154,6 +162,6 @@ tags: []
 type: python
 uuid: eldritch_celestial
 variables:
-  index_name: documents_20240814_0742
+  index_name: documents_20240814_0122
 variables_dir: /home/src/mage_data/rager
 widgets: []

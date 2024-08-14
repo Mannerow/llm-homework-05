@@ -16,29 +16,13 @@ def generate_document_id(doc):
 def transform(data, *args, **kwargs):
     documents = []
 
-    # Check if data is a list or a single dictionary
-    if isinstance(data, list):
-        # Loop through each dictionary in the list
-        for course_dict in data:
-            for doc in course_dict['documents']:
-                doc['course'] = course_dict['course']
-                doc['document_id'] = generate_document_id(doc)
-                documents.append(doc)
-    else:
-        # Handle the single dictionary case (your original code)
-        for doc in data['documents']:
-            doc['course'] = data['course']
-            doc['document_id'] = generate_document_id(doc)
-            documents.append(doc)
+    for doc in data['documents']:
+        doc['course'] = data['course']
+        # previously we used just "id" for document ID
+        doc['document_id'] = generate_document_id(doc)
+        documents.append(doc)
 
-    print(len(documents))  # Output the number of documents (chunks)
-    print(type(documents)) # Output the type to confirm it's a list
+    print(len(documents))
+    print(type(data))
+
     return documents
-
-
-@test
-def test_output(output, *args) -> None:
-    """
-    Template code for testing the output of the block.
-    """
-    assert output is not None, 'The output is undefined'

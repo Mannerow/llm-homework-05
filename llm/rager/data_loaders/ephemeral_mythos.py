@@ -70,16 +70,11 @@ def read_faq(file_id):
 
 @data_loader
 def load_data(*args, **kwargs):
-    """
-    Template code for loading data from any source.
-
-    Returns:
-        Anything (e.g. data frame, dictionary, array, int, str, etc.)
-    """
-    # Specify your data loading logic here
+    # Define faq version
     faq_documents = {
-    'llm-zoomcamp': '1qZjwHkvP0lXHiE4zdbWyUXSVfmVGzougDD6N37bat3E',
+    'llm-zoomcamp': '1T3MdwUvqCL3jrh3d3VCXQ8xE0UqRzI3bfgpfBq3ZWG0', # Defines which faq version to use
     }
+
     documents = []
 
     for course, file_id in faq_documents.items():
@@ -87,11 +82,3 @@ def load_data(*args, **kwargs):
         course_documents = read_faq(file_id)
         documents.append({'course': course, 'documents': course_documents})
     return documents
-
-
-@test
-def test_output(output, *args) -> None:
-    """
-    Template code for testing the output of the block.
-    """
-    assert output is not None, 'The output is undefined'
